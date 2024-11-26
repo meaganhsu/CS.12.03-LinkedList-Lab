@@ -45,6 +45,8 @@ public abstract class AbstractListManipulatorTest {
     private ListNode list12;
     private ListNode list13;
     private ListNode list14;
+    private ListNode list15;
+    private ListNode list16;
 
     private ListNode listOfLists;
 
@@ -88,6 +90,8 @@ public abstract class AbstractListManipulatorTest {
         list12 = new ListNode(SIX); ListNode list12Node2 = new ListNode(FOUR); list12.next = list12Node2; list12Node2.previous = list12; list12.previous = list12Node2; list12Node2.next = list12;
         list13 = new ListNode(SIX); ListNode list13Node2 = new ListNode(FOUR); ListNode list13Node3 = new ListNode(TEN); list13.next = list13Node2; list13Node2.previous = list13; list13Node3.previous = list13Node2; list13Node2.next = list13Node3; list13Node3.next = list13; list13.previous = list13Node3;
         list14 = new ListNode(THREE); list14.next = list14; list14.previous = list14;
+        list15 = new ListNode(FOUR); ListNode list15Node2 = new ListNode(TEN); list15.next = list15Node2; list15Node2.previous = list15; list15.previous = list15Node2; list15Node2.next = list15;
+        list16 = new ListNode(FIVE); ListNode list16Node2 = new ListNode(NINE); list16.next = list16Node2; list16Node2.previous = list16; list16.previous = list16Node2; list16Node2.next = list16;
 
         listOfLists = new ListNode(null); listOfLists.next = new ListNode(null); listOfLists.next.previous = listOfLists; listOfLists.next.next = listOfLists; listOfLists.previous = listOfLists.next;
     }
@@ -107,6 +111,17 @@ public abstract class AbstractListManipulatorTest {
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(THREE, manipulator.size(list3.previous)));
     }
 
+    /**
+     * Tests the isEmpty method in the IListManipulator implementation.
+     */
+    @Test
+    public void isEmpty()
+    {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.isEmpty(emptyList)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.isEmpty(list1)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.isEmpty(list2)));
+    }
+
 
     /**
      * Tests the contains method in the IListManipulator implementation.
@@ -124,9 +139,6 @@ public abstract class AbstractListManipulatorTest {
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.contains(list1, THREE)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.contains(list6, SIX)));
     }
-
-
-
 
     /**
      * Tests the count method in the IListManipulator implementation.
@@ -150,181 +162,200 @@ public abstract class AbstractListManipulatorTest {
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE + "," + THREE + "," + NINE, manipulator.convertToString(list3)));
     }
 
-        /**
-         * Tests the getFromFront method in the IListManipulator implementation during normal operation.
-         * @throws InvalidIndexException not expected to be thrown during this test.
-         */
-        @Test
-        public void getCountingForwards() throws InvalidIndexException {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromFront(list1, 0)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromFront(list2, 0)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(THREE, manipulator.getFromFront(list2, 1)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromFront(list3, 0)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(THREE, manipulator.getFromFront(list3, 1)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(NINE, manipulator.getFromFront(list3, 2)));
-        }
+    /**
+     * Tests the getFromFront method in the IListManipulator implementation during normal operation.
+     * @throws InvalidIndexException not expected to be thrown during this test.
+     */
+    @Test
+    public void getCountingForwards() throws InvalidIndexException {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromFront(list1, 0)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromFront(list2, 0)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(THREE, manipulator.getFromFront(list2, 1)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromFront(list3, 0)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(THREE, manipulator.getFromFront(list3, 1)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(NINE, manipulator.getFromFront(list3, 2)));
+    }
 
-        /**
-         * Tests the getFromFront method in the IListManipulator implementation with an index that is too large.
-         * @throws InvalidIndexException is expected to be thrown during this test.
-         */
-        @Test
-        public void getCountingForwardsIndexTooLarge() throws InvalidIndexException {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.getFromFront(list3, FOUR)));
-        }
+    /**
+     * Tests the getFromFront method in the IListManipulator implementation with an index that is too large.
+     * @throws InvalidIndexException is expected to be thrown during this test.
+     */
+    @Test
+    public void getCountingForwardsIndexTooLarge() throws InvalidIndexException {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.getFromFront(list3, FOUR)));
+    }
 
-        /**
-         * Tests the getFromFront method in the IListManipulator implementation with an empty (null) list and index 0.
-         * @throws InvalidIndexException is expected to be thrown during this test.
-         */
-        @Test
-        public void getCountingForwardsEmptyList() throws InvalidIndexException {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.getFromFront(null, 0)));
-        }
+    /**
+     * Tests the getFromFront method in the IListManipulator implementation with an empty (null) list and index 0.
+     * @throws InvalidIndexException is expected to be thrown during this test.
+     */
+    @Test
+    public void getCountingForwardsEmptyList() throws InvalidIndexException {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.getFromFront(null, 0)));
+    }
 
-        /**
-         * Tests the getFromBack method in the IListManipulator implementation during normal operation.
-         * @throws InvalidIndexException not expected to be thrown during this test.
-         */
-        @Test
-        public void getCountingBackwards() throws InvalidIndexException {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromBack(list1, 0)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(THREE, manipulator.getFromBack(list2, 0)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromBack(list2, 1)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(NINE, manipulator.getFromBack(list4, 0)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(THREE, manipulator.getFromBack(list4, 1)));
-        }
+    /**
+     * Tests the getFromBack method in the IListManipulator implementation during normal operation.
+     * @throws InvalidIndexException not expected to be thrown during this test.
+     */
+    @Test
+    public void getCountingBackwards() throws InvalidIndexException {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromBack(list1, 0)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(THREE, manipulator.getFromBack(list2, 0)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.getFromBack(list2, 1)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(NINE, manipulator.getFromBack(list4, 0)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(THREE, manipulator.getFromBack(list4, 1)));
+    }
 
-        /**
-         * Tests the getFromBack method in the IListManipulator implementation with an index that is too large.
-         * @throws InvalidIndexException is expected to be thrown during this test.
-         */
-        @Test
-        public void getCountingBackwardsIndexTooLarge() throws InvalidIndexException {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.getFromBack(list4, FOUR)));
-        }
+    /**
+     * Tests the getFromBack method in the IListManipulator implementation with an index that is too large.
+     * @throws InvalidIndexException is expected to be thrown during this test.
+     */
+    @Test
+    public void getCountingBackwardsIndexTooLarge() throws InvalidIndexException {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.getFromBack(list4, FOUR)));
+    }
 
-        /**
-         * Tests the getFromBack method in the IListManipulator implementation with an empty (null) list and index 0.
-         * @throws InvalidIndexException is expected to be thrown during this test.
-         */
-        @Test
-        public void getCountingBackwardsEmptyList() throws InvalidIndexException {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.getFromBack(emptyList, 0)));
-        }
+    /**
+     * Tests the getFromBack method in the IListManipulator implementation with an empty (null) list and index 0.
+     * @throws InvalidIndexException is expected to be thrown during this test.
+     */
+    @Test
+    public void getCountingBackwardsEmptyList() throws InvalidIndexException {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.getFromBack(emptyList, 0)));
+    }
 
-        /**
-         * Tests the equals method in the IListManipulator implementation.
-         */
-        @Test
-        public void equals() {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(emptyList, emptyList)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.equals(list1, emptyList)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.equals(list1, list2)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.equals(list2, list1)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list2, list2)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, list3)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, list4)));
-        }
+    /**
+     * Tests the equals method in the IListManipulator implementation.
+     */
+    @Test
+    public void equals() {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(emptyList, emptyList)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.equals(list1, emptyList)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.equals(list1, list2)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.equals(list2, list1)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list2, list2)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, list3)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, list4)));
+    }
 
-        /**
-         * Tests the containsDuplicates method in the IListManipulator implementation.
-         */
-        @Test
-        public void containsDuplicates() {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.containsDuplicates(emptyList)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.containsDuplicates(list1)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.containsDuplicates(list2)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.containsDuplicates(list3)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.containsDuplicates(list6)));
-        }
+    /**
+     * Tests the containsDuplicates method in the IListManipulator implementation.
+     */
+    @Test
+    public void containsDuplicates() {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.containsDuplicates(emptyList)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.containsDuplicates(list1)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.containsDuplicates(list2)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertFalse(manipulator.containsDuplicates(list3)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.containsDuplicates(list6)));
+    }
 
-
-
-        /**
-         * Tests the append method in the IListManipulator implementation.
-         */
-        @Test
-        public void append() {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertNull(manipulator.append(emptyList, emptyList)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list1, manipulator.append(list1, emptyList))));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list1, manipulator.append(emptyList, list1))));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, manipulator.append(list1, list8))));
-        }
+    /**
+     * Tests the addHead method in the IListManipulator implementation.
+     */
+    @Test
+    public void addHead()
+    {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list2, manipulator.addHead(list14, list1))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, manipulator.addHead(list8, list10))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list13, manipulator.addHead(list15, list11))));
+    }
 
 
-        /**
-         * Tests the append method in the IListManipulator implementation to append three lists together.
-         */
-        @Test
-        public void appendThreeLists() {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list6, manipulator.append(manipulator.append(list1, list10), list9))));
-        }
+    /**
+     * Tests the append method in the IListManipulator implementation.
+     */
+    @Test
+    public void append() {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertNull(manipulator.append(emptyList, emptyList)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list1, manipulator.append(list1, emptyList))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list1, manipulator.append(emptyList, list1))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, manipulator.append(list1, list8))));
+    }
+
+    /**
+     * Tests the append method in the IListManipulator implementation to append three lists together.
+     */
+    @Test
+    public void appendThreeLists() {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list6, manipulator.append(manipulator.append(list1, list10), list9))));
+    }
+
+    /**
+     * Tests the delete method in the IListManipulator implementation.
+     */
+    @Test
+    public void delete()
+    {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertNull(manipulator.delete(list1, FIVE)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list12, manipulator.delete(list12, TWO)))); 
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list10, manipulator.delete(list2, FIVE))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list16, manipulator.delete(list6, FIVE))));
+    }
 
 
-        /**
-         * Tests the reverse method in the IListManipulator implementation.
-         */
-        @Test
-        public void reverse() {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertNull(manipulator.reverse(emptyList)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list1, manipulator.reverse(list1))));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list7, manipulator.reverse(list5))));
-        }
+    /**
+     * Tests the reverse method in the IListManipulator implementation.
+     */
+    @Test
+    public void reverse() {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertNull(manipulator.reverse(emptyList)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list1, manipulator.reverse(list1))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list7, manipulator.reverse(list5))));
+    }
 
 
-            /**
-             * Tests the split method in the IListManipulator implementation.
-             * @throws InvalidIndexException during this test
-             * @throws InvalidListException during this test
-             */
-            @Test
-            public void split() throws InvalidIndexException, InvalidListException {
-                assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidListException.class, () -> manipulator.split(emptyList, emptyList)));
-                assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidListException.class, () -> manipulator.split(list1, list1)));
-                assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidListException.class, () -> manipulator.split(list2, list2)));
+    /**
+     * Tests the split method in the IListManipulator implementation.
+     * @throws InvalidIndexException during this test
+     * @throws InvalidListException during this test
+     */
+    @Test
+    public void split() throws InvalidIndexException, InvalidListException {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidListException.class, () -> manipulator.split(emptyList, emptyList)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidListException.class, () -> manipulator.split(list1, list1)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidListException.class, () -> manipulator.split(list2, list2)));
 
-                listOfLists.element = list1; listOfLists.next.element = list14;
-                assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(listOfLists, manipulator.split(list2, list2.next))));
-            }
+        listOfLists.element = list1; listOfLists.next.element = list14;
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(listOfLists, manipulator.split(list2, list2.next))));
+    }
 
-        /**
-         * Tests the map method in the IListManipulator implementation.
-         */
-        @Test
-        public void map() {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertNull(manipulator.map(emptyList, addOne)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list11, manipulator.map(list1, addOne))));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list12, manipulator.map(list2, addOne))));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list13, manipulator.map(list3, addOne))));
-        }
+    /**
+     * Tests the map method in the IListManipulator implementation.
+     */
+    @Test
+    public void map() {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertNull(manipulator.map(emptyList, addOne)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list11, manipulator.map(list1, addOne))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list12, manipulator.map(list2, addOne))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list13, manipulator.map(list3, addOne))));
+    }
 
-        /**
-         * Tests the reduce method in the IListManipulator implementation.
-         */
-        @Test
-        public void reduce() {
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(0, manipulator.reduce(emptyList, add, 0)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.reduce(list1, add, 0)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE + THREE, manipulator.reduce(list2, add, 0)));
-            assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE + THREE + NINE, manipulator.reduce(list3, add, 0)));
-        }
-
-
-
-        /**
-         * Tests the filter method in the IListManipulator implementation.
-         */
-        @Test
-        public void filter() {
-            assertEquals(emptyList, manipulator.filter(emptyList, element -> (Integer) element > 0));
-            assertEquals(emptyList, manipulator.filter(list1, greaterThanFive));
-
-            assertTrue(manipulator.equals(list1, manipulator.filter(list1, lessOrEqualToFive)));
-            assertTrue(manipulator.equals(list9, manipulator.filter(list3, greaterThanFive)));
-        }
+    /**
+     * Tests the reduce method in the IListManipulator implementation.
+     */
+    @Test
+    public void reduce() {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(0, manipulator.reduce(emptyList, add, 0)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE, manipulator.reduce(list1, add, 0)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE + THREE, manipulator.reduce(list2, add, 0)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertEquals(FIVE + THREE + NINE, manipulator.reduce(list3, add, 0)));
+    }
 
 
+
+    /**
+     * Tests the filter method in the IListManipulator implementation.
+     */
+    @Test
+    public void filter() {
+        assertEquals(emptyList, manipulator.filter(emptyList, element -> (Integer) element > 0));
+        assertEquals(emptyList, manipulator.filter(list1, greaterThanFive));
+
+        assertTrue(manipulator.equals(list1, manipulator.filter(list1, lessOrEqualToFive)));
+        assertTrue(manipulator.equals(list9, manipulator.filter(list3, greaterThanFive)));
+    }
 
 
     /**

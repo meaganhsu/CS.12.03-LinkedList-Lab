@@ -90,7 +90,8 @@ public interface IListManipulator {
     boolean containsDuplicates(ListNode head);
 
     /**
-     * Adds a node to the front of a list.
+     * Adds a single node to the front of a list. You may assume that the head and node are both non-null and that
+     * the node is a single node (i.e. it is not part of a list).
      * 
      * @param head the head of the list
      * @param node the new head of the list
