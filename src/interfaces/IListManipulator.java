@@ -109,10 +109,10 @@ public interface IListManipulator {
     ListNode append(ListNode head1, ListNode head2);
 
     /**
-     * Adds a node into the list at index n
+     * Adds a node into the list at index n. 
      * 
      * @param head the head of the list
-     * @param node the node to be added into the list
+     * @param node the node to be added into the list. You may assume node is a single node (i.e. it is not part of a list)
      * @param n the index at which a node is to be inserted into
      * @return the original list containing the node at index n
      * @throws InvalidIndexException if the position is not valid

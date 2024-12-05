@@ -47,6 +47,8 @@ public abstract class AbstractListManipulatorTest {
     private ListNode list14;
     private ListNode list15;
     private ListNode list16;
+    private ListNode list17;
+    private ListNode list18;
 
     private ListNode listOfLists;
 
@@ -92,6 +94,8 @@ public abstract class AbstractListManipulatorTest {
         list14 = new ListNode(THREE); list14.next = list14; list14.previous = list14;
         list15 = new ListNode(FOUR); ListNode list15Node2 = new ListNode(TEN); list15.next = list15Node2; list15Node2.previous = list15; list15.previous = list15Node2; list15Node2.next = list15;
         list16 = new ListNode(FIVE); ListNode list16Node2 = new ListNode(NINE); list16.next = list16Node2; list16Node2.previous = list16; list16.previous = list16Node2; list16Node2.next = list16;
+        list17 = new ListNode(ONE); list17.next = list17; list17.previous = list17;
+        list18 = new ListNode(THREE); ListNode list18Node2 = new ListNode(TWO); list18.next = list18Node2; list18Node2.previous = list18; list18.previous = list18Node2; list18Node2.next = list18;
 
         listOfLists = new ListNode(null); listOfLists.next = new ListNode(null); listOfLists.next.previous = listOfLists; listOfLists.next.next = listOfLists; listOfLists.previous = listOfLists.next;
     }
@@ -281,6 +285,19 @@ public abstract class AbstractListManipulatorTest {
     public void appendThreeLists() {
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list6, manipulator.append(manipulator.append(list1, list10), list9))));
     }
+
+    /**
+     * Tests the insert method in the IListManipulator implementation.
+     */
+    @Test
+    public void insert()
+    {
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.insert(list2, list1, 3)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, manipulator.insert(list16, list14, 1))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list13, manipulator.insert(list15, list11, 0))));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list7, manipulator.insert(list18, list17, 2))));        
+    }
+
 
     /**
      * Tests the delete method in the IListManipulator implementation.
