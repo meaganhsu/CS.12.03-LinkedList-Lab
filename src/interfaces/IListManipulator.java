@@ -110,7 +110,7 @@ public interface IListManipulator {
 
     /**
      * Adds a node into the list at index n. 
-     * 
+     *
      * @param head the head of the list
      * @param node the node to be added into the list. You may assume node is a single node (i.e. it is not part of a list)
      * @param n the index at which a node is to be inserted into

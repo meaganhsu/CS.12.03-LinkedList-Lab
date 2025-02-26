@@ -292,10 +292,10 @@ public abstract class AbstractListManipulatorTest {
     @Test
     public void insert()
     {
-        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertThrows(InvalidIndexException.class, () -> manipulator.insert(list2, list1, 3)));
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT),  () -> assertThrows(InvalidIndexException.class, () -> manipulator.insert(list2, list1, 3)));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list3, manipulator.insert(list16, list14, 1))));
         assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list13, manipulator.insert(list15, list11, 0))));
-        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list7, manipulator.insert(list18, list17, 2))));        
+        assertTimeoutPreemptively(Duration.ofMillis(TIME_LIMIT), () -> assertTrue(manipulator.equals(list7, manipulator.insert(list18, list17, 2))));
     }
 
 
