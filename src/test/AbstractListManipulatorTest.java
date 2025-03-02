@@ -361,7 +361,6 @@ public abstract class AbstractListManipulatorTest {
     }
 
 
-
     /**
      * Tests the filter method in the IListManipulator implementation.
      */
